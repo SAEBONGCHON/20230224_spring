@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+	
+	<mappers>
+		<mapper resource="mappers/board-mapper.xml"/>
+	</mappers>
+
+
+	<!-- environments안에 두개의 environment태그를 만들어 환경을 선택하여 사용할 수 있다. -->
+	<!-- root-context.xml 파일에 세팅했던 것과 동일함 -->
+	<!-- 
+	<environments default="development">
+		<environment id="development">
+			<dataSource type="POOLED">
+				<property name="diver" value="orcle.jdbc.OracleDriver"/>
+				<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe"/>
+				<property name="username" value="KH"/>
+				<property name="password" value="KH"/>
+			</dataSource>
+		</environment>
+	</environments>
+ 	-->	
+</configuration>
