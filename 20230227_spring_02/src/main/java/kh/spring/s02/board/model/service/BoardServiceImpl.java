@@ -9,7 +9,7 @@ import kh.spring.s02.board.model.dao.BoardDao;
 import kh.spring.s02.board.model.vo.BoardVo;
 
 @Service
-public class BoardServiceImp1 implements BoardService {
+public class BoardServiceImpl implements BoardService {
 
 	@Autowired
 	private BoardDao dao;

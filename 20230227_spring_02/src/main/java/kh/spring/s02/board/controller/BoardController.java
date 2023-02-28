@@ -23,23 +23,33 @@ public class BoardController {
 	private BoardService service;
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public void viewListBoard(Model model) {
-		model.addAttribute("boardlist", service.selectList());		
+	public ModelAndView viewListBoard(ModelAndView mv) {
+		
+		mv.addObject("boardlist", service.selectList());
+		mv.setViewName("board/list");
+		return mv;
 	}
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public void viewUpdateBoard() {
 		
 	}
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@GetMapping("/delete")
 	public void viewDeleteBoard() {
+		//TODO
+		int boardNum = 10;
+		int result = service.delete(boardNum);
 		
 	}
-	@RequestMapping(value = "/read", method = RequestMethod.GET)
+	
+	@GetMapping("/read")
 	public void viewReadBoard() {
-		
+		//TODO
+		int boardNum = 1;
+		String writer = "user11";
+		BoardVo vo = service.selectOne(boardNum, writer);
 	}
-	@RequestMapping(value = "/insert", method = RequestMethod.GET)
-//	@GetMapping("/boardinsert")
+	
+	@GetMapping("/insert")
 	public ModelAndView viewInsertBoard(
 			ModelAndView mv
 		  , HttpServletRequest req
@@ -47,12 +57,21 @@ public class BoardController {
 		  , BoardVo vo
 		  ) {
 		
-		mv.setViewName("redierct:boardinsert");		
+		mv.setViewName("board/insert");		
 		return mv;
 	}
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-//	@PostMapping("/boardinsert")
-	public ModelAndView doInsertBoard(ModelAndView mv) {
+	
+	//뷰페이지를 갔다가 post로 들어올거야	
+//	@PostMapping("/insert")
+	//TODO :
+	@GetMapping("/insertPostTest")
+	public ModelAndView doInsertBoard(ModelAndView mv
+			, BoardVo vo
+			) {
+		vo.setBoardContent("임시내용");
+		vo.setBoardTitle("임시제목");
+		vo.setBoardWriter("user22");
+		int result = service.insert(vo);
 		
 		return mv;
 	}

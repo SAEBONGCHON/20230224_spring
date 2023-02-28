@@ -34,8 +34,16 @@
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
+		<priority value=info />
 		<appender-ref ref="console" />
 	</root>
-	
+	<!-- 
+	등급순서
+	fatal : 나 여기서 죽을게
+	error
+	warn
+	info
+	debug
+	trace
+	 -->
 </log4j:configuration>
