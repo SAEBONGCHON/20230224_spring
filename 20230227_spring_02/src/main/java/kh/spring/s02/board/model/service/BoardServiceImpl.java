@@ -18,6 +18,10 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public int insert(BoardVo vo) {
+		if(vo.getBoardNum() != 0) {
+			// 몇번글의 답글인지 번호가 있고, 원글이라면  0이다.
+			dao.updateForRelpy(vo.getBoardNum());
+		}
 		return dao.insert(vo);
 	}
 
@@ -53,6 +57,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int selectOneCount() {
 		return dao.selectOneCount();
+	}
+
+	@Override
+	public List<BoardVo> selectList(int currentpage,int limit) {
+		return dao.selectList(currentpage);
 	}
 
 }

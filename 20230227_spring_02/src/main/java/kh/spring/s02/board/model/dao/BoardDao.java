@@ -1,7 +1,9 @@
 package kh.spring.s02.board.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -32,11 +34,28 @@ public class BoardDao {
 	public BoardVo selectOne(int boardNum/*PK*/) {
 		return sqlSession.selectOne("boardns.selectOneid", boardNum);
 	}
-	public List<BoardVo> selectList() {
+	public List<BoardVo> selectList(int currentpage) {
 		return sqlSession.selectList("boardns.selectListid");
+	}
+	//아래와같은 코드, 보통 DAO에서 컨트롤러를 불러오는 것은 하지 않는다. 연관관계가 형성됨
+	// 그래서 public -> private로 변경하여 int limit로 가져오는것을 선호한다.
+	public List<BoardVo> selectList(int currentPage, int limit) {
+//		int offset =  (currentPage-1)*limit;		
+//		RowBounds rb = new RowBounds(offset, limit);
+//		return sqlSession.selectList("boardns.selectListid", null, rb);		
+		return sqlSession.selectList("boardns.selectListid", null, new RowBounds((currentPage-1)*limit,limit));		
 	}
 	public int selectOneCount() {
 		return sqlSession.selectOne("boardns.selectOneCount");
+	}
+	
+	public List<HashMap<String, Object>> tempSelect() {
+		List<HashMap<String, Object>> listmap = sqlSession.selectList("board_num");
+		for(HashMap<String, Object> map : listmap) {
+			System.out.println((String)map.get("boardDate"));
+		}
+		// property = key = attribute = column = field
+		return listmap;
 	}
 
 	

@@ -13,8 +13,8 @@ public class BoardVo {
 	private String boardOriginalFilename;
 	private String boardRenameFilename;
 	private Date boardDate;
-	private int boardLevel;
-	private int boardRef;
+	private int boardLevel; // 
+	private int boardRef;	// 답글을 작성하고자하는 4번글이 속하는 ref를 넣어줘야함 
 	private int boardReplySeq;
 	private int boardReadcount;
 	

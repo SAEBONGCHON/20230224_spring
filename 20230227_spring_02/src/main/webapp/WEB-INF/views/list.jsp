@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-boardinsert.jsp 입니다.
+<h1>게시판 글목록</h1>
+
 </body>
 </html>

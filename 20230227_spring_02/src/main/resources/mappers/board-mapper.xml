@@ -2,6 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="boardns">
 
+<resultMap type="bvo" id="bvoMap">
+	<!-- 
+	PK는 id로 걸어준다. 기준점이 되는 것. collection, associat?머시기 사용할떄 반드시 id사용해야함
+	교재에는 없지만 수업에 진행할것임 
+	<id/>
+	-->
+	<result column="board_Num" property="boardNum"/>
+	<result column="board_title" property="boardtitle"/>
+	<result column="board_Writer" property="boardWriter"/>
+	<result column="board_Original_Filename" property="boardOriginalFilename"/>
+	<result column="board_Rename_Filename" property="boardRenameFilename"/>
+	<result column="board_Date" property="boardDate"/>
+	<result column="board_Level" property="boardLevel"/>
+	<result column="board_Ref" property="boardRef"/>
+	<result column="board_Reply_Seq" property="boardReplySeq"/>
+	<result column="board_Readcount" property="boardReadcount"/>
+</resultMap>
+
+<resultMap type="bvo" id="reMap">
+	<result column="sdate" property="boardDate"/>
+	<result column="board_num" property="boardNum"/>
+</resultMap>
+<!-- 리절트타입이 뭐냐?? bvo요. 맵을 통해서 bvo에 담는다.  -->
+<select id="tempSelect" resultMap="rsMap">
+	select sysdate ad sdate, board_num from board
+</select>
+
 <insert id="insertid" parameterType="kh.spring.s02.board.model.vo.BoardVo">
 	insert into board value
 	(
@@ -12,47 +39,127 @@
 		, #{boardOriginalFilename}
 		, #{boardRenameFilename}
 		, default
+	<choose>
+		<when test="boardNum != 0">
+		, (select board_level+1 from board where board_num=#{boardNum})
+		, (select BOARD_REF from board where board_num=#{boardNum})
+		, (select BOARD_REPLY_SEQ+1 from board where board_num=#{boardNum})
+		</when>
+		<otherwise>
 		, default
 		, (select NVL(MAX(BOARD_NUM), 0)+1 from board)
 		, default
+		</otherwise>
+	</choose>
 		, default
 	)
 </insert>
+
+<!-- Dao에서 들고 들어온 값에 대한 비교뿐이고, 이곳에선 DB에 있는 값은 알 수 없다 
+	그래서 조건문에 컬럼명은 절대 들어갈 수 없다. 조건식의 방법은 다양해서 외우라고는 못함..
+	<if test="boardOriginalFilename.eq ==''">는 사용하지 못함
+-->
 <update id="updateid">
 	update board set
 	    board_title = #{boardTitle}
 	  , board_Content = #{boardContent}
+	  <if test="boardOriginalFilename != null and boardOriginalFilename neq ''.toString() ">
 	  , board_Original_Filename = #{boardOriginalFilename}
-	  , board_Rename_Filename = #{boardRenameFilename}
+	  </if>
+	  <if test="boardOriginalFilename == null or boardOriginalFilename.eq '' ">
+	  , board_Original_Filename = null
+	  </if>
+	  , board_Rename_Filename = 
+	  <choose>
+		  	<when test="boardRenameFilename != null and !boardRenameFilename.equals('')">
+	    	#{boardRenameFilename}
+		  	</when>
+		  	<otherwise>
+		  	null
+		  	</otherwise>
+	  </choose>
 	  , board_Date = SYSDATE
 	  where board_Num = #{boardNum}
 </update>
+
 <update id="updateReadCount">
 	update board set
 	    board_Readcount = board_Readcount +1
    	    where board_Num = #{boardNum}
 </update>
+<!-- 
+	답글관련 코드
+ -->
 <update id="updateForRelpy">
 	update board set board_reply_seq = board_reply_seq+1
-	where
-	board_reply_seq > (select board_reply_seq from board where board_num = #{boardNum})
-	and board_ref = (select board_ref from board where board_num = #{boardNum})
+		where
+		board_reply_seq > (select board_reply_seq from board where board_num = #{boardNum})
+		and board_ref = (select board_ref from board where board_num = #{boardNum})
 </update>
 <delete id="deleteid">
 	select * from board where board_Num = #{boardNum}
 </delete>
+<!--  여       기 -->
 <select id="selectOneid" resultType="kh.spring.s02.board.model.vo.BoardVo">
 	select * from board where board_Num = #{boardNum}
 </select>
-<select id="selectListid" resultType="kh.spring.s02.board.model.vo.BoardVo">
+
+<select id="selectListid" resultType="bvo">
 	select * from board
 </select>
-<select id="selectOneCount" resultType="string">
+<select id="selectOneCount" resultType="_int">
 	select count(*) cnt from board
+		<trim prefix="where" prefixOverrides="AND|OR">
+	 	<if test="searchWord != null and searchWord neq ''">
+	 		title like #{searchWord}
+	 		or content like #{searchWord}
+	 	</if>
+	 	</trim>
 </select>
 <!-- 
 <select id="selectListid2">
 	select * from board
 </select>
  -->
+ 
+<select id="tempCallableSelect" statementType="CALLABLE" 
+		parameterType="bvo" resultType="bvo">
+{	CALL p1		}
+</select>
+
+ <!-- 제목과 내용에서 찾기 -->
+ <select id="tempTrimSelect">
+ 	select * from board
+	 	<trim prefix="where" prefixOverrides="AND|OR">
+	 	<if test="searchWord != null and searchWord neq ''">
+	 		title like #{searchWord}
+	 		or content like #{searchWord}
+	 	</if>
+	 	</trim>
+ </select>
+ 
+ <delete id="tempForeachDelete">
+ 	delete from board 
+ 	<where>
+ 		<!-- 1이 1이아니다 -->
+ 		1<>1 or 
+ 		<foreach collection="list" item="bnum" open="board_num in (" close=")" separator=",">
+ 		#{bnum} 		
+ 		</foreach> 	
+ 	</where>
+ </delete>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 </mapper>
