@@ -104,9 +104,17 @@
 	select * from board where board_Num = #{boardNum}
 </select>
 
+
 <select id="selectListid" resultType="bvo">
-	select * from board
+	select count(*) cnt from board
+		<trim prefix="where" prefixOverrides="AND|OR">
+	 	<if test="searchWord != null and searchWord neq ''">
+	 		title like #{searchWord}
+	 		or content like #{searchWord}
+	 	</if>
+	 	</trim>
 </select>
+
 <select id="selectOneCount" resultType="_int">
 	select count(*) cnt from board
 		<trim prefix="where" prefixOverrides="AND|OR">
@@ -142,7 +150,9 @@
  	delete from board 
  	<where>
  		<!-- 1이 1이아니다 -->
+<![CDATA[
  		1<>1 or 
+]]>
  		<foreach collection="list" item="bnum" open="board_num in (" close=")" separator=",">
  		#{bnum} 		
  		</foreach> 	

@@ -57,6 +57,16 @@ public class BoardDao {
 		// property = key = attribute = column = field
 		return listmap;
 	}
+	public List<BoardVo> selectList(int currentPage, int limit, String searchWord) {
+		return sqlSession.selectList("boardns.selectListid", searchWord, new RowBounds((currentPage-1)*limit,limit));		
+	}
+	public List<BoardVo> selectList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public int selectOneCount(String searchWord) {
+		return sqlSession.selectOne("boardns.selectOneCount", searchWord);
+	}
 
 	
 //	public List<BoardVo> selectList2() {
