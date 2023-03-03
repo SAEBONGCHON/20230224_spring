@@ -6,9 +6,10 @@
 </head>
 <body>
 <h1>
-	Hello world! 
+	Hello world!  
 </h1>
- 20230227 실습시간에 만듦
+20230228 잘되니? <br>
+20230227
 <P>  The time on the server is ${serverTime}. </P>
 </body>
 </html>
