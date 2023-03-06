@@ -12,15 +12,9 @@
 	</appender>
 
 	<!-- Application Loggers -->
-<<<<<<< HEAD
-<<<<<<< HEAD
-	<logger name="com.kh.teamproject">
-=======
+	<logger name="com.kh.teamproject"/>
+	<logger name="kh.spring.s02"/>
 	<logger name="kh.spring.s02">
->>>>>>> b7fc79c631853d87f6433ff4287d52f88db26cc4
-=======
-	<logger name="kh.spring.s02">
->>>>>>> 314a38d6c9159cc4ddd8acb1480834cd83e2cca3
 		<level value="info" />
 	</logger>
 
@@ -41,13 +35,6 @@
 		<level value="info" />
 	</logger>
 
-	<!-- Root Logger -->
-	<root>
-		<priority value="info" />
-		<appender-ref ref="console" />
-	</root>
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 	<!-- SQL Logger -->
 	<logger name="jdbc.sqltiming" additivity="false">
@@ -71,10 +58,12 @@
 		<appender-ref ref="console" />
 	</logger>
 
+	<!-- Root Logger -->
+	<root>
+		<priority value="info" />
+		<appender-ref ref="console" />
+	</root>
 
-=======
-=======
->>>>>>> 314a38d6c9159cc4ddd8acb1480834cd83e2cca3
 	<!-- 
 	등급순서
 	fatal : 나 여기서 죽을게
@@ -84,8 +73,4 @@
 	debug
 	trace
 	 -->
-<<<<<<< HEAD
->>>>>>> b7fc79c631853d87f6433ff4287d52f88db26cc4
-=======
->>>>>>> 314a38d6c9159cc4ddd8acb1480834cd83e2cca3
 </log4j:configuration>

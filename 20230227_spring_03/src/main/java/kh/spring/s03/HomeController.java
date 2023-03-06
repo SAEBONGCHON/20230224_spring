@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -25,7 +26,16 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model, HttpSession session) {
+	public String home(Locale locale
+			, Model model
+			, HttpSession session
+//			, HttpServletRequest req
+			) {
+//		회원가입 성공해도 F5누르면 계속 회원가입성공이 뜨는 안좋은 방법임
+//		String msg = req.getParameter("msg");
+//		System.out.println(msg);
+//		model.addAttribute("alertMsg", msg);
+		
 		logger.error("error Welcome home! The client locale is {}.", locale);
 		logger.warn("warn Welcome home! The client locale is {}.", locale);
 		logger.info("info Welcome home! The client locale is {}.", locale);

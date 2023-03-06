@@ -36,7 +36,7 @@ public class AdviceLog {
 	
 	@Around("controllerPointCut()")
 	public Object aroundControllerPointCut(ProceedingJoinPoint pjp) throws Throwable{
-		//                                ㄴ이게 아규먼트
+		//                              ㄴ이게 아규먼트
 		Object returnObj = null;
 		Object[] args = pjp.getArgs();
 		for(int i=0; i<args.length; i++) {

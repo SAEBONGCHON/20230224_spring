@@ -1,15 +1,5 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
-<<<<<<< Updated upstream
 Built-By: user1
 Build-Jdk: 11.0.16.1
-=======
-Built-By: saerompark
-Build-Jdk: 11.0.17
->>>>>>> Stashed changes
-=======
-Built-By: user1
-Build-Jdk: 11.0.16.1
->>>>>>> 314a38d6c9159cc4ddd8acb1480834cd83e2cca3
 Created-By: Maven Integration for Eclipse
 

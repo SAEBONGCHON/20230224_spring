@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import kh.spring.s03.member.model.vo.MemberVo;
 
 @Service
-public class MemberService {
+public interface MemberService {
 
-	public int insert(MemberVo vo);
-	public int update(MemberVo vo);
-	public int delete(MemberVo vo);
-	public MemberVo selectOne(String id);
-	public List<MemberVo> selectList();
+	public int insert(MemberVo vo) throws Exception;
+	public int update(MemberVo vo)throws Exception;
+	public int delete(MemberVo vo)throws Exception;
+	public MemberVo selectOne(String id)throws Exception;
+	public List<MemberVo> selectList()throws Exception;
 }
