@@ -1,5 +1,6 @@
 package kh.spring.s03.board.controller;
 
+<<<<<<< Updated upstream
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,10 +10,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+=======
+import org.springframework.stereotype.Controller;
+>>>>>>> Stashed changes
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+<<<<<<< Updated upstream
 import kh.spring.s03.board.model.service.BoardService;
 import kh.spring.s03.board.model.vo.BoardVo;
 
@@ -132,10 +137,18 @@ public class BoardController {
 		vo.setBoardTitle("임시제목");
 		vo.setBoardWriter("user22");
 		int result = service.insert(vo);
+=======
+@Controller
+public class BoardController {
+	
+	@RequestMapping(value = "", method = RequestMethod.GET)
+		public ModelAndView viewInsertBoard(ModelAndView mv) {
+>>>>>>> Stashed changes
 		
 		return mv;
 	}
 
+<<<<<<< Updated upstream
 	/*
 	 * 답글 작성 페이지이동
 	 * 이때, 몇번 글에 답글을 쓸건지 글번호를 가지고 가야한다.
@@ -185,4 +198,6 @@ public class BoardController {
 		return mv;
 	}
 	
+=======
+>>>>>>> Stashed changes
 }
