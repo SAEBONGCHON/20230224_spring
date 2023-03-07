@@ -5,14 +5,17 @@ import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.aspectj.lang.annotation.AdviceName;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import kh.spring.s03.board.model.vo.BoardVo;
 
 @Repository
 public class BoardDao {
-
+	
 	@Autowired
 	private SqlSession sqlSession;
 	
@@ -66,6 +69,10 @@ public class BoardDao {
 	}
 	public int selectOneCount(String searchWord) {
 		return sqlSession.selectOne("boardns.selectOneCount", searchWord);
+	}
+	
+	public List<BoardVo> selectReplyList(int boardNum) {
+		return sqlSession.selectList("boardns.selectReplyList", boardNum);
 	}
 
 	

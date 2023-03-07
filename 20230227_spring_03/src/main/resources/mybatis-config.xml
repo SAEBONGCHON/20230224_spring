@@ -3,12 +3,12 @@
 <configuration>
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL"/>
-		<!-- <setting name="mapUnderscoreToCamelCase" value="true"/> -->
+	<!-- 	<setting name="mapUnderscoreToCamelCase" value="true"/> -->
 	</settings>
 	
 	<typeAliases>
 		<typeAlias type="kh.spring.s03.board.model.vo.BoardVo" alias="bvo"/>
-		<typeAlias type="kh.spring.s03.member.model.vo.MemberdVo" alias="mvo"/>
+		<typeAlias type="kh.spring.s03.member.model.vo.MemberVo" alias="mvo"/>
 	</typeAliases>
 
 	<mappers>

@@ -38,7 +38,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardVo selectOne(int boardNum, String writer) {
 		BoardVo result = dao.selectOne(boardNum);
-		if(!result.getBoardWriter().equals(writer)) {
+		if(result!= null && !result.getBoardWriter().equals(writer)) {
 			dao.updateReadCount(boardNum);
 		}
 		return result;
@@ -73,6 +73,17 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int selectOneCount(String searchWord) {
 		return dao.selectOneCount(searchWord);
+	}
+
+	@Override
+	public List<BoardVo> selectReplyList(int boardNum) {
+		return dao.selectReplyList(boardNum);
+	}
+
+	@Override
+	public List<BoardVo> selectReplyList(int boardNum, int currentpage, int limit) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

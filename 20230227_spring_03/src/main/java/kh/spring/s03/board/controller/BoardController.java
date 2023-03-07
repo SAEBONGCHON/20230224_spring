@@ -1,10 +1,7 @@
 package kh.spring.s03.board.controller;
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
->>>>>>> 314a38d6c9159cc4ddd8acb1480834cd83e2cca3
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,20 +10,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-<<<<<<< HEAD
-=======
-import org.springframework.stereotype.Controller;
->>>>>>> Stashed changes
-=======
->>>>>>> 314a38d6c9159cc4ddd8acb1480834cd83e2cca3
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
->>>>>>> 314a38d6c9159cc4ddd8acb1480834cd83e2cca3
 import kh.spring.s03.board.model.service.BoardService;
 import kh.spring.s03.board.model.vo.BoardVo;
 
@@ -102,9 +92,6 @@ public class BoardController {
 		int result = service.update(vo);
 	}
 	
-	
-	
-	
 	@GetMapping("/delete")
 	public void viewDeleteBoard() {
 		//TODO
@@ -112,13 +99,20 @@ public class BoardController {
 		int result = service.delete(boardNum);
 		
 	}
-	
+	//글 상세 읽기 화면
 	@GetMapping("/read")
-	public void viewReadBoard() {
+	public ModelAndView viewReadBoard(
+			ModelAndView mv
+			,@RequestParam("boardNum") int boardNum
+			) {
 		//TODO
-		int boardNum = 1;
 		String writer = "user11";
-		BoardVo vo = service.selectOne(boardNum, writer);
+		
+		List<BoardVo> replyList = service.selectReplyList(boardNum);
+		mv.addObject("replyList", replyList);
+		
+		mv.setViewName("board/read");
+		return mv;
 	}
 	
 	// 원글 작성페이지 이동
@@ -146,24 +140,8 @@ public class BoardController {
 		vo.setBoardTitle("임시제목");
 		vo.setBoardWriter("user22");
 		int result = service.insert(vo);
-<<<<<<< HEAD
-=======
-@Controller
-public class BoardController {
-	
-	@RequestMapping(value = "", method = RequestMethod.GET)
-		public ModelAndView viewInsertBoard(ModelAndView mv) {
->>>>>>> Stashed changes
-=======
->>>>>>> 314a38d6c9159cc4ddd8acb1480834cd83e2cca3
-		
 		return mv;
 	}
-
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
->>>>>>> 314a38d6c9159cc4ddd8acb1480834cd83e2cca3
 	/*
 	 * 답글 작성 페이지이동
 	 * 이때, 몇번 글에 답글을 쓸건지 글번호를 가지고 가야한다.
@@ -200,9 +178,26 @@ public class BoardController {
 		
 		return mv;
 	}
-	
-	
-	
+	//Ajax : 왔던 곳으로 돌아온다. 다른페이지 이동 ㄴㄴ 기본임
+	@PostMapping("/insertReplyAjax")
+	@ResponseBody
+	public String insertReplyAjax(BoardVo vo) {
+		int boardNum = 4;
+		vo.setBoardNum(boardNum);
+		
+//		vo.setBoardContent("임시답내용");
+//		vo.setBoardTitle("임시답제목");
+		vo.setBoardWriter("user22");
+		
+		//답글 작성
+		service.insert(vo);
+		// 연관 답글들 조회해서 ajax로 return 해야함.
+		List<BoardVo> replyList = service.selectReplyList(vo.getBoardNum());
+//		mv.addObject("")
+		
+		
+		return "ok";
+	}
 	
 	
 //	GET,POST 구분없이 모든 값을 받아올때는 아래와같이 사용할 수 있다.
@@ -213,9 +208,4 @@ public class BoardController {
 		return mv;
 	}
 	
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> 314a38d6c9159cc4ddd8acb1480834cd83e2cca3
 }
