@@ -1,0 +1,47 @@
+@charset "UTF-8";
+*{
+	box-sizing: border-box;
+}
+.wrap.header{
+	background-color: orange;
+}
+.wrap.footer{
+	position: relative;
+	background-color: olive;
+}
+.wrap.footer > .btn.top{
+	position: absolute;
+	left: 10px;
+	top: 10px;
+}
+
+
+header{
+	width: 960px; margin: 0 auto;
+	border: 1px solid black;
+	padding: 20px;
+	box-sizing: border-box;
+	margin-bottom: 10px;
+	
+	position: relative;
+	height: 200px;
+	/* 자식 absolute 있으면 height 지정해야함 */
+	
+}
+section{
+	width: 960px; margin: 0 auto;
+	border: 1px solid black;
+	padding: 20px;
+	box-sizing: border-box;
+	margin-bottom: 10px;
+}
+aside{
+	
+}
+footer{
+	width: 960px; margin: 0 auto;
+	border: 1px solid black;
+	padding: 20px;
+	box-sizing: border-box;
+	margin-bottom: 10px;
+}
