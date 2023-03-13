@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import kh.spring.s03.board.model.dao.BoardDao;
 import kh.spring.s03.board.model.vo.BoardVo;
 
@@ -17,6 +17,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	
 	@Override
+	@Transactional
 	public int insert(BoardVo vo) {
 		if(vo.getBoardNum() != 0) {
 			// 몇번글의 답글인지 번호가 있고, 원글이라면  0이다.

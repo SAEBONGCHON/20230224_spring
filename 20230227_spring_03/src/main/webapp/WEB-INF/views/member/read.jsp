@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="cpath" value="${pageContext.request.contextPath }"/>
+<c:set var="uploadpath" value="/resource/uploadfiles"/>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +18,9 @@
 	</div>
 	<div>
 	${board.boarContent }
+	</div>
+    <div>
+	<img src="${cpath }${uploadpath }${board.boarRenameFilename }">
 	</div>
 	
 	<!--계층형 게시판에는 추천하지 않는 답글작성 방법  -->
@@ -63,7 +69,7 @@
 		//제이쿼리야 제이쿼리야 에이작스 메소드를 불러와줘
 		console.log($("#frmReply").serialize());
 		$.ajax({
-			url:"<%=request.getContextPath()%>/board/insertReplyAjax"
+			url:"${pageContext.request.contextPath }/board/insertReplyAjax"
 			, type: "post"
 			//contentType : 쿼리스트링일떄는 작성하지 않는다
 			, data: $("#frmReply").serialize()
@@ -73,7 +79,6 @@
 			, dataType: "json" //success에 들어오는 데이터가 json 모양일것이고 이것을 js object로 변경해서 return
 			, success: function(result){
 				console.log(result);
-				console.log(result[0]);
 				console.log(result[0].boardDate); //0번째의 키이름을 넣으면 밸류가 튀어 나온다.
 				/*답글 작성 완료 후 작성된 글 초기화  */
 				/* $("#frmReply").eq(0).reset();  */

@@ -1,24 +1,31 @@
 package kh.spring.s03.board.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.spring.s03.board.model.service.BoardService;
 import kh.spring.s03.board.model.vo.BoardVo;
+import kh.spring.s03.common.file.FileUtil;
 
 @Controller
 @RequestMapping("/board")
@@ -30,11 +37,12 @@ public class BoardController {
 	private final static int BOARD_LIMIT = 5;
 	private final static int PAGE_LIMIT = 3;
 	
+	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView viewListBoard(ModelAndView mv) {
 		// TODO
 		String searchWord = "답";
-		int currentPage = 2;
+		int currentPage = 1;
 		int totalCnt = service.selectOneCount(searchWord);
 		int totalPage = (totalCnt%BOARD_LIMIT ==0)
 						?(totalCnt /BOARD_LIMIT)
@@ -130,17 +138,27 @@ public class BoardController {
 	
 	//원글 작성
 	//뷰페이지를 갔다가 post로 들어올거야	
-//	@PostMapping("/insert")
-	//TODO :
-	@GetMapping("/insertPostTest")
-	public ModelAndView doInsertBoard(ModelAndView mv
+	@PostMapping("/insert")
+	public ModelAndView doInsertBoard(
+			  MultipartHttpServletRequest multiReq
+			, @RequestParam(name ="report", required = false) MultipartFile multi
+			, HttpServletRequest request
+			, ModelAndView mv
 			, BoardVo vo
 			) {
-		vo.setBoardContent("임시내용");
-		vo.setBoardTitle("임시제목");
-		vo.setBoardWriter("user22");
-		int result = service.insert(vo);
-		return mv;
+		Map<String, String> filePath;
+		List<Map<String, String>> fileListPath;
+		try {
+			fileListPath = new FileUtil().saveFileList(multiReq, request, null);
+			filePath = new FileUtil().saveFile(multi, request, null);
+			vo.setBoardOriginalFilename(filePath.get("original"));  
+			vo.setBoardRenameFilename(filePath.get("original"));  
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			vo.setBoardWriter("user22"); //TODO: 로그인한 계정
+			int result = service.insert(vo);
+			return mv;
 	}
 	/*
 	 * 답글 작성 페이지이동
@@ -208,4 +226,5 @@ public class BoardController {
 		return mv;
 	}
 	
+//	@ExceptionHandler
 }
