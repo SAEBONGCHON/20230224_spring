@@ -1,30 +1,32 @@
 package kh.spring.s03.common.file;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+@Component("fileUtil")
+@PropertySource("classpath:properties/khs2.properties")
 public class FileUtil {
-
-	private final static String UPLOAD_FOLDER = "\\resources\\uploadfiles";
+	
+	@Value("${local.repository}")
+	private String UPLOAD_FOLDER; //사실 보안상 감춰야하는 경로라 프로퍼티를 사용하는 것이 좋다
 	
 	
-	
-	public List<Map<String, String>> saveFileList(
-			MultipartHttpServletRequest multiReq,
-			HttpServletRequest request,
-			String addedPath
-			){
+	public List<Map<String, String>> saveFileList(MultipartHttpServletRequest multiReq,
+   												HttpServletRequest request,
+												String addedPath){
 		List<Map<String, String>> result = new ArrayList<Map<String, String>>();
 		
 		Iterator<String> iterator = multiReq.getFileNames(); //Name <input name="n1" type="file">
@@ -66,7 +68,7 @@ public class FileUtil {
 			}
 			// 파일을 savepath 위치에 저장
 			// 시간을 활용한 rename
-			String renameByTime = System.currentTimeMillis()+ "_"+originalFileName;
+			RrenameByTime = System.currentTimeMillis()+ "_"+originalFileName;
 			// UUID :
 //			String renameByUUID = UUID.randomUUID().toString()+ "_"+originalFileName;
 			

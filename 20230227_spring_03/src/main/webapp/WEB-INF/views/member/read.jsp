@@ -24,11 +24,12 @@
 	</div>
 	
 	<!--계층형 게시판에는 추천하지 않는 답글작성 방법  -->
-	<form id="frmReply">
+	<form id="frmReply" enctype="multipart/form-data">
 	<fieldset>
 		<legend>답글작성</legend>
 		<div>제목<input type="text" name="boardTitle"></div>
 		<div>내용<input type="text" name="boardContent"></div>
+		<div>파일<input type="file" name="report"></div>
 		<input type="hidden" name="boardNum" value="${board.boardNum }">
 		<button type="button" class="btn reply">답글작성</button>
 		<!-- <button type="reset">초기화</button> -->
@@ -67,12 +68,21 @@
 		console.log(this); 		   //this는 원래 DOM 형태이다
 		console.log($(this));	   // DOM형태의 this를 제이쿼리로 형변환
 		//제이쿼리야 제이쿼리야 에이작스 메소드를 불러와줘
-		console.log($("#frmReply").serialize());
+		//console.log($("#frmReply").serialize());
+		//file포함되어 있는 경우 serialize()로 데이터 전달 할 수 없음
+		let formData = new FormData();
+		formdata.append("boardTitle", $("[name=boardTitle]").val());
+		formdata.append("boardContent",$("[name=boardContent]").val());
+		formdata.append("report", $("[name=report]").files[0]);
+		formdata.append("boardNum", $("[name=boardNum]").val());
+		console.log(formData);
 		$.ajax({
-			url:"${pageContext.request.contextPath }/board/insertReplyAjax"
+			  url:"${pageContext.request.contextPath }/board/insertReplyAjax"
 			, type: "post"
-			//contentType : 쿼리스트링일떄는 작성하지 않는다
-			, data: $("#frmReply").serialize()
+			
+			, contentType : false
+			, processData : false
+			, data: formData
 				/*원래 아래와 같이 써줘야하는데 form에 id를 걸어서 위와 같이 작성할 수 있다.!
 				boardNum을 가져오기위해 form 태그에 input hidden을 추가해준다. 보안성을 높인다. 조작이 불가능해짐.
 				  {boardTitle: $("#a").val(), boardContent: $("#b").val(), boardNum: '${board.boardNum }'} */

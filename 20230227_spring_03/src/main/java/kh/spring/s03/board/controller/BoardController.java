@@ -1,19 +1,17 @@
 package kh.spring.s03.board.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +31,9 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService service;
+	@Autowired 
+	@Qualifier("fileUtil")
+	private FileUtil fileUtil;
 	
 	private final static int BOARD_LIMIT = 5;
 	private final static int PAGE_LIMIT = 3;
@@ -107,14 +108,28 @@ public class BoardController {
 		int result = service.delete(boardNum);
 		
 	}
+	
+	
+	// URL (반드시 쿼리스트링으로 표기해야할까?)
+	// 1. /board/read?boardNum=27&replyPage=3
+	//     location.href="board/read?boardNum=${elboardnum}&reply=${elboardnum}"
+	// 2. /board/read/27/3
+	//     location.href="board/read/${elboardnum}/${elboardnum}"
+	
+	
 	//글 상세 읽기 화면
-	@GetMapping("/read")
+	@GetMapping("/read/{boardNum}")
 	public ModelAndView viewReadBoard(
 			ModelAndView mv
-			,@RequestParam("boardNum") int boardNum
+//			, @PathVariable int replyPage
+			, @PathVariable int boardNum
+			//, @RequestParam("boardNum") int boardNum
 			) {
 		//TODO
 		String writer = "user11";
+		
+		BoardVo vo = service.selectOne(boardNum, writer);
+		mv.addObject("board", vo);
 		
 		List<BoardVo> replyList = service.selectReplyList(boardNum);
 		mv.addObject("replyList", replyList);
@@ -149,8 +164,8 @@ public class BoardController {
 		Map<String, String> filePath;
 		List<Map<String, String>> fileListPath;
 		try {
-			fileListPath = new FileUtil().saveFileList(multiReq, request, null);
-			filePath = new FileUtil().saveFile(multi, request, null);
+			fileListPath = fileUtil.saveFileList(multiReq, request, null);
+			filePath = fileUtil.saveFile(multi, request, null);
 			vo.setBoardOriginalFilename(filePath.get("original"));  
 			vo.setBoardRenameFilename(filePath.get("original"));  
 		} catch (Exception e) {
@@ -199,11 +214,16 @@ public class BoardController {
 	//Ajax : 왔던 곳으로 돌아온다. 다른페이지 이동 ㄴㄴ 기본임
 	@PostMapping("/insertReplyAjax")
 	@ResponseBody
-	public String insertReplyAjax(BoardVo vo) {
-		int boardNum = 4;
-		vo.setBoardNum(boardNum);
+	public String insertReplyAjax(BoardVo vo, MultipartFile report) {
+		if(report != null) {
+			System.out.println("파일없음");
+		}
+		System.out.println("~#@@##@#");
+		System.out.println(vo);
 		
-//		vo.setBoardContent("임시답내용");
+//		int boardNum = 4;
+//		vo.setBoardNum(boardNum);
+		//		vo.setBoardContent("임시답내용");
 //		vo.setBoardTitle("임시답제목");
 		vo.setBoardWriter("user22");
 		
