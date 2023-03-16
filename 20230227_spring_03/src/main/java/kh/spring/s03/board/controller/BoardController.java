@@ -164,7 +164,7 @@ public class BoardController {
 		Map<String, String> filePath;
 		List<Map<String, String>> fileListPath;
 		try {
-			fileListPath = fileUtil.saveFileList(multiReq, request, null);
+//			fileListPath = fileUtil.saveFileList(multiReq, request, null);
 			filePath = fileUtil.saveFile(multi, request, null);
 			vo.setBoardOriginalFilename(filePath.get("original"));  
 			vo.setBoardRenameFilename(filePath.get("original"));  

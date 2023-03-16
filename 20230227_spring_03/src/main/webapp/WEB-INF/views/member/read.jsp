@@ -23,6 +23,34 @@
 	<img src="${cpath }${uploadpath }${board.boarRenameFilename }">
 	</div>
 	
+    <div>
+	<!-- 첨부 파일 모두 display  -->
+<%--  <c:forEach varStatus="vs" items="${boardFileList }" var="boardfile">
+		<p>${boardfile.originalFilename}"></p>
+		<img src="${cpath }${uploadpath }/${boardfile.renameFilename}">
+ 	  </c:forEach>
+--%>
+    
+    <!-- 여러사진 슬라이드 일때 -->
+    <c:forEach varStatus="vs" items="${board.boardFileList }" var="boardfile">
+		<p>${boardfile.originalFilename}"></p>
+		<img src="${cpath }${uploadpath }/${boardfile.renameFilename}">
+    </c:forEach>
+	<img src="${cpath }${uploadpath }/2번이미지">
+	<img src="${cpath }${uploadpath }/3번이미지">
+	<img src="${cpath }${uploadpath }/4번이미지">
+	<img src="${cpath }${uploadpath }/5번이미지">
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<hr>
 	<!--계층형 게시판에는 추천하지 않는 답글작성 방법  -->
 	<form id="frmReply" enctype="multipart/form-data">
 	<fieldset>

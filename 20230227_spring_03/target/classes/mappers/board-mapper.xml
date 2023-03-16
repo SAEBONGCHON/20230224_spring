@@ -3,13 +3,11 @@
 <mapper namespace="boardns">
 
 <resultMap type="bvo" id="bvoMap">
-	<!-- 
-	PK는 id로 걸어준다. 기준점이 되는 것. collection, associat?머시기 사용할떄 반드시 id사용해야함
+	<!--PK는 id로 걸어준다. 기준점이 되는 것. collection, associat?머시기 사용할떄 반드시 id사용해야함
 	교재에는 없지만 수업에 진행할것임 
-	<id/>
-	-->
+	<id/>-->
 	<result column="board_Num" property="boardNum"/>
-	<result column="board_title" property="boardtitle"/>
+	<result column="board_Title" property="boardtitle"/>
 	<result column="board_Writer" property="boardWriter"/>
 	<result column="board_Original_Filename" property="boardOriginalFilename"/>
 	<result column="board_Rename_Filename" property="boardRenameFilename"/>
@@ -19,6 +17,42 @@
 	<result column="board_Reply_Seq" property="boardReplySeq"/>
 	<result column="board_Readcount" property="boardReadcount"/>
 </resultMap>
+
+<!--첨부파일 뿌려주기 : 콜렉션은 단독으로 사용할 수 있는 태그가 아니다  -->
+<resultMap type="bvo" id="bvoCollection">
+	<id column="board_Num" property="boardNum"/>
+	<result column="board_Title" property="boardtitle"/>
+	<result column="board_Writer" property="boardWriter"/>
+	<result column="board_Original_Filename" property="boardOriginalFilename"/>
+	<result column="board_Rename_Filename" property="boardRenameFilename"/>
+	<result column="board_Date" property="boardDate"/>
+	<result column="board_Level" property="boardLevel"/>
+	<result column="board_Ref" property="boardRef"/>
+	<result column="board_Reply_Seq" property="boardReplySeq"/>
+	<result column="board_Readcount" property="boardReadcount"/>
+	<collection column="board_Num" property="boardFileList" ofType="kh.spring.s03.board.model.vo.BoardFileVo">
+		<!--SELECT에서 USING을 사용했으면 id는 사용되지 않는다  -->
+		<!--<id/> -->
+		<result column="original_filename" property="originalFilename"/>
+		<result column="rename_filename" property="renameFilename"/>
+	</collection>
+</resultMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <!-- 리절트타입이 뭐냐?? bvo요. 맵을 통해서 bvo에 담는다.  -->

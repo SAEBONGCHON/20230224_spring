@@ -28,7 +28,7 @@ public class MemberController {
 	
 	@GetMapping("/signUp")
 	public ModelAndView viewInsert(ModelAndView mv, MemberVo vo) {
-		mv.setViewName("member.signUp");
+		mv.setViewName("member/signUp");
 		return mv;
 	}
 	
@@ -81,9 +81,7 @@ public class MemberController {
 		return mv;
 	}
 	@GetMapping("/delete")
-	public ModelAndView delete(ModelAndView mv
-			, String id
-			)throws Exception {
+	public ModelAndView delete(ModelAndView mv, String id)throws Exception {
 		service.delete(id);
 		return mv;
 	}
