@@ -2,6 +2,7 @@ package kh.spring.s03.board.model.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -19,9 +20,19 @@ public class BoardDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public int insert(BoardVo vo) {
-		return sqlSession.insert("boardns.insertid", vo);
+	public int getSeqBoardNum() {
+		return sqlSession.selectOne("boardns.getSeqBoardNum");
 	}
+	//sequence 사용
+	public int insert(Map<String, Object> map) {
+		return sqlSession.insert("boardns.insertid", map);
+	}
+	//sequence 사용
+	public int insertFile(Map<String, Object> map) {
+		return sqlSession.insert("boardns.insertfile", map);
+		
+	}
+	
 	public int update(BoardVo vo) {
 		return sqlSession.update("boardns.updateid", vo);
 	}
@@ -74,6 +85,7 @@ public class BoardDao {
 	public List<BoardVo> selectReplyList(int boardNum) {
 		return sqlSession.selectList("boardns.selectReplyList", boardNum);
 	}
+
 
 	
 //	public List<BoardVo> selectList2() {

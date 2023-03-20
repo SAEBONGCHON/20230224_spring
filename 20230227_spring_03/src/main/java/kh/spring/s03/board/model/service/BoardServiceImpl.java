@@ -1,6 +1,8 @@
 package kh.spring.s03.board.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +21,20 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	@Transactional
 	public int insert(BoardVo vo) {
+		int seqBoardNum = dao.getSeqBoardNum();
 		if(vo.getBoardNum() != 0) {
 			// 몇번글의 답글인지 번호가 있고, 원글이라면  0이다.
 			dao.updateForRelpy(vo.getBoardNum());
 		}
-		return dao.insert(vo);
+//		return dao.insert(vo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("bvo", vo);
+		map.put("seqBoardNum", seqBoardNum);
+		
+		
+		dao.insert(map);
+		return dao.insertFile(map);
 	}
 
 	@Override
